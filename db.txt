@@ -1,0 +1,40 @@
+CREATE DATABASE IF NOT EXISTS sistema_tickets;
+USE sistema_tickets;
+
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    rol ENUM('cliente', 'administrador') NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Ticket (
+    id_ticket INT AUTO_INCREMENT PRIMARY KEY,
+    prioridad ENUM('baja', 'media', 'alta') NOT NULL,
+    estado ENUM('pendiente', 'trabajando', 'cerrado') NOT NULL DEFAULT 'pendiente',
+    descripcion TEXT NOT NULL,
+    fecha_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    asunto VARCHAR(150) NOT NULL,
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE Historial (
+    id_historial INT AUTO_INCREMENT PRIMARY KEY,
+    campo_modificado VARCHAR(50) NOT NULL,
+    valor_anterior TEXT,
+    valor_nuevo TEXT,
+    comentario TEXT,
+    fecha_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    id_ticket INT NOT NULL,
+    id_usuario INT,
+    FOREIGN KEY (id_ticket) REFERENCES Ticket(id_ticket)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+);
