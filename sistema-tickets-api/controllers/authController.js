@@ -15,3 +15,12 @@ exports.login = async (req, res) => {
     res.status(401).json({ error: err.message });
   }
 };
+
+exports.obtenerPerfil = async (req, res) => {
+  try {
+    const perfil = await authService.obtenerPerfil(req.usuario.id_usuario);
+    res.json(perfil);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
+  }
+};
