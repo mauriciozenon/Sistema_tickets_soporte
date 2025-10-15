@@ -16,6 +16,19 @@ exports.obtenerUsuarios = async () => {
     return await usuarioModel.listarUsuarios();
 };
 
+exports.actualizarUsuario = async (id_usuario, campos) => {
+  if (campos.password) {
+    campos.password_hash = await bcrypt.hash(campos.password, 10);
+    delete campos.password;
+  }
+  return await usuarioModel.actualizarUsuario(id_usuario, campos);
+};
+
+exports.eliminarUsuario = async (id_usuario) => {
+  return await usuarioModel.eliminarUsuario(id_usuario);
+};
+
+
 exports.iniciarSesion = async (datos) => {
     const { email, password } = datos;
     const usuarioExistente = await usuarioModel.obtenerUsuarioLogin(email);

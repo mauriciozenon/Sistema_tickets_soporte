@@ -2,7 +2,7 @@ const historialModel = require('../models/historialModel');
 
 exports.registrarHistorial = async ({ id_ticket, id_usuario, campo_modificado, valor_anterior, valor_nuevo, comentario }) => {
   if (!id_ticket || !campo_modificado) {
-    throw new Error('Faltan campos obligatorios');
+    throw new Error('Faltan campos obligatorios para registrar historial');
   }
 
   return await historialModel.registrarHistorial(
@@ -16,6 +16,9 @@ exports.registrarHistorial = async ({ id_ticket, id_usuario, campo_modificado, v
 };
 
 exports.obtenerHistorial = async (id_ticket) => {
-  if (!id_ticket) throw new Error('ID de ticket requerido');
+  if (!id_ticket) {
+    throw new Error('ID de ticket requerido para obtener historial');
+  }
+
   return await historialModel.obtenerHistorialPorTicket(id_ticket);
 };

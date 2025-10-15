@@ -22,3 +22,25 @@ exports.obtenerUsuarioPorEmail = async (email) => {
   const [rows] = await pool.query('SELECT id_usuario, nombre, email, rol  FROM Usuario WHERE email = ?', [email]);
   return rows;
 };
+exports.obtenerUsuarioPorId = async (id_usuario) => {
+  const [rows] = await pool.query(
+    `SELECT id_usuario, nombre, email, rol FROM Usuario WHERE id_usuario = ?`,
+    [id_usuario]
+  );
+  return rows[0];
+};
+exports.actualizarUsuario = async (id_usuario, campos) => {
+  const camposSQL = Object.keys(campos).map(c => `${c} = ?`).join(', ');
+  const valores = Object.values(campos);
+  valores.push(id_usuario);
+
+  await pool.query(
+    `UPDATE Usuario SET ${camposSQL} WHERE id_usuario = ?`,
+    valores
+  );
+};
+
+exports.eliminarUsuario = async (id_usuario) => {
+  await pool.query(`DELETE FROM Usuario WHERE id_usuario = ?`, [id_usuario]);
+};
+
