@@ -14,6 +14,7 @@ const ticketRoutes = require('../routes/ticketRoutes');
 const historialRoutes = require('../routes/historialRoutes');
 const errorHandler = require('../middleware/errorHandler');
 const authRoutes = require('../routes/authRoutes');
+const rolMiddleware = require('../middleware/rolMiddleware');
 
 
 // Uso de rutas
