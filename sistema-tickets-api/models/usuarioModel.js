@@ -20,7 +20,7 @@ exports.obtenerUsuarioLogin = async (email) => {
 
 exports.obtenerUsuarioPorEmail = async (email) => {
   const [rows] = await pool.query('SELECT id_usuario, nombre, email, rol  FROM Usuario WHERE email = ?', [email]);
-  return rows;
+  return rows[0];
 };
 exports.obtenerUsuarioPorId = async (id_usuario) => {
   const [rows] = await pool.query(
