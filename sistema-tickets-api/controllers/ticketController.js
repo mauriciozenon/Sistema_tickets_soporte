@@ -11,13 +11,18 @@ exports.registrarTicket = async (req, res) => {
 
 exports.listarTickets = async (req, res) => {
   try {
-    const filtros = req.query;
-    const tickets = await ticketService.obtenerTickets(filtros);
-    res.json(tickets);
+    const { page = 1, limit = 10, ...filtros } = req.query;
+    const offset = (page - 1) * limit;
+
+    const tickets = await ticketService.obtenerTickets(filtros, limit, offset);
+    const total = await ticketService.contarTickets(filtros);
+
+    res.json({ tickets, total });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 exports.actualizarTicket = async (req, res) => {
   try {
