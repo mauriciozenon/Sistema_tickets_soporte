@@ -15,7 +15,7 @@ exports.listarUsuarios = async () => {
 
 exports.obtenerUsuarioLogin = async (email) => {
   const [rows] = await pool.query('SELECT id_usuario, nombre, email, rol, password_hash FROM Usuario WHERE email = ?', [email]);
-  return rows;
+  return rows[0];
 };
 
 exports.obtenerUsuarioPorEmail = async (email) => {

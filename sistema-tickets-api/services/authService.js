@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.login = async (email, password) => {
-  const usuario = await usuarioModel.obtenerUsuarioPorEmail(email);
+  const usuario = await usuarioModel.obtenerUsuarioLogin(email);
   if (!usuario) throw new Error('Credenciales inválidas');
 
   const valido = await bcrypt.compare(password, usuario.password_hash);
@@ -12,7 +12,7 @@ exports.login = async (email, password) => {
   const token = jwt.sign(
     { id_usuario: usuario.id_usuario, rol: usuario.rol },
     process.env.JWT_SECRET,
-    { expiresIn: '1h' }
+    { expiresIn: '0.1h' }
   );
 
   return { token, usuario: { id_usuario: usuario.id_usuario, nombre: usuario.nombre, rol: usuario.rol } };

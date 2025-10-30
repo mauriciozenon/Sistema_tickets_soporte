@@ -3,6 +3,8 @@ const { validationResult } = require('express-validator');
 
 exports.login = async (req, res) => {
   const errores = validationResult(req);
+  // console.log(req);
+  // console.log(errores);
   if (!errores.isEmpty()) {
     return res.status(400).json({ errores: errores.array() });
   }
