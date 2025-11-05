@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-
+const usuarioService = require('../config/test-db');
 const app = express();
 
 // Middlewares
@@ -28,4 +28,6 @@ app.use('/api/auth', authRoutes);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
+  console.log('intentando conexion: ');
+  usuarioService.testConnection();
 });

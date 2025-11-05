@@ -20,7 +20,18 @@ exports.crearTicket = async (datos) => {
 exports.obtenerTickets = async (filtros) => {
   return await ticketModel.filtrarTickets(filtros);
 };
-
+exports.obtenerTicketPorId = async (id_ticket) => {
+  return await ticketModel.obtenerTicketPorId(id_ticket);
+};
+exports.contarTickets = async (filtros) => {
+  let cantidad = 0;
+  let result = await ticketModel.filtrarTickets("");
+  if(result)
+    {
+      cantidad = result.length;
+    }
+    return cantidad;
+};
 exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
   const ticketActual = await ticketModel.obtenerTicketPorId(id_ticket);
   if (!ticketActual) throw new Error('Ticket no encontrado');

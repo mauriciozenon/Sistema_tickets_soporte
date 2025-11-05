@@ -8,6 +8,7 @@ console.log('listarTickets:', typeof ticketController.listarTickets);     // deb
 
 router.post('/', ticketController.registrarTicket);
 router.get('/', ticketController.listarTickets);
-router.put('/:id', authMiddleware, ticketController.actualizarTicket);
+router.get('/:id', ticketController.getTicket);
+router.put('/:id', ticketController.actualizarTicket);
 
 module.exports = router;
