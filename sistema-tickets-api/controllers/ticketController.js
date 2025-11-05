@@ -1,4 +1,4 @@
-const ticketService = require('../services/TicketService');
+const ticketService = require('../services/ticketService');
 
 exports.registrarTicket = async (req, res) => {
   try {
@@ -22,13 +22,23 @@ exports.listarTickets = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.getTicket = async (req, res) => {
+  try {
+  
+    const { id } = req.params;
+    const ticket = await ticketService.obtenerTicketPorId(id);
 
+    res.json({ ticket });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 exports.actualizarTicket = async (req, res) => {
   try {
     const { id } = req.params;
     const cambios = req.body;
-    const usuario = req.usuario?.id_usuario || null;
+    const usuario = cambios.id_usuario || null;
 
     const resultado = await ticketService.actualizarTicket(id, cambios, usuario);
     res.json(resultado);
