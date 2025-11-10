@@ -46,3 +46,15 @@ exports.actualizarTicket = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.eliminarTicket = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await ticketService.borrarTicket(id);
+    const resultado = res.status(200).json({ mensaje: 'Ticket eliminado' });
+    return resultado;
+  }
+  catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

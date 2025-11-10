@@ -62,3 +62,7 @@ exports.actualizarTicket = async (id_ticket, cambios) => {
   const setClause = campos.map(c => `${c} = ?`).join(', ');
   await pool.query(`UPDATE Ticket SET ${setClause} WHERE id_ticket = ?`, [...valores, id_ticket]);
 };
+// Método para eliminar un ticket
+exports.eliminarTicket = async (id_ticket) => {
+  await pool.query('DELETE FROM Ticket WHERE id_ticket = ?', [id_ticket]);
+};

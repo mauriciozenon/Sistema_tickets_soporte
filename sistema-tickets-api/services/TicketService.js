@@ -61,3 +61,7 @@ exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
   await ticketModel.actualizarTicket(id_ticket, actualizaciones);
   return { mensaje: 'Ticket actualizado', cambios: actualizaciones };
 };
+
+exports.borrarTicket = async (id_ticket) => {
+  return await ticketModel.eliminarTicket(id_ticket);
+};

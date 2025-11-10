@@ -10,5 +10,6 @@ router.post('/', ticketController.registrarTicket);
 router.get('/', ticketController.listarTickets);
 router.get('/:id', ticketController.getTicket);
 router.put('/:id', ticketController.actualizarTicket);
+router.delete('/:id', ticketController.eliminarTicket);
 
 module.exports = router;
