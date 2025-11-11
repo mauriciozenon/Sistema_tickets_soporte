@@ -17,8 +17,8 @@ exports.crearTicket = async (datos) => {
   }
 };
 
-exports.obtenerTickets = async (filtros) => {
-  return await ticketModel.filtrarTickets(filtros);
+exports.obtenerTickets = async (filtros, limit, offset) => {
+  return await ticketModel.filtrarTickets(filtros, parseInt(limit), parseInt(offset));
 };
 exports.obtenerTicketPorId = async (id_ticket) => {
   return await ticketModel.obtenerTicketPorId(id_ticket);

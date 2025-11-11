@@ -1,4 +1,5 @@
 const ticketService = require('../services/ticketService');
+const db = require('../config/db');
 
 exports.registrarTicket = async (req, res) => {
   try {
@@ -58,3 +59,29 @@ exports.eliminarTicket = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.obtenerPorUsuario = async (req, res) => {
+   try {
+    const { id } = req.params;
+    const [rows] = await db.query('SELECT * FROM tickets WHERE id_usuario = ?', [id]);
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener tickets del usuario:', error);
+    res.status(500).json({ error: 'Error al obtener los tickets del usuario' });
+  }
+};
+
+exports.listarTicketsPorUsuario = async (req, res) => {
+  try {
+    const { id_usuario } = req.params; 
+    const filtros = { id_usuario };
+    const tickets = await ticketService.obtenerTickets(filtros);
+    res.json({ tickets });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+
+

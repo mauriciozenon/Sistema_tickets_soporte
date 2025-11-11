@@ -8,8 +8,14 @@ console.log('listarTickets:', typeof ticketController.listarTickets);     // deb
 
 router.post('/', ticketController.registrarTicket);
 router.get('/', ticketController.listarTickets);
+
 router.get('/:id', ticketController.getTicket);
 router.put('/:id', ticketController.actualizarTicket);
 router.delete('/:id', ticketController.eliminarTicket);
+router.get('/usuario/:id', ticketController.obtenerPorUsuario);
+router.get('/usuario/:id', ticketController.listarTicketsPorUsuario);
+router.get('/usuario/:id_usuario', ticketController.listarTicketsPorUsuario);
+
+
 
 module.exports = router;
