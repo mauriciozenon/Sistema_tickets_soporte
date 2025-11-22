@@ -13,7 +13,7 @@ router.get('/:id', ticketController.getTicket);
 router.put('/:id', ticketController.actualizarTicket);
 router.delete('/:id', ticketController.eliminarTicket);
 router.get('/usuario/:id', ticketController.obtenerPorUsuario);
-router.get('/usuario/:id', ticketController.listarTicketsPorUsuario);
+// router.get('/usuario/:id', ticketController.listarTicketsPorUsuario);
 router.get('/usuario/:id_usuario', ticketController.listarTicketsPorUsuario);
 
 

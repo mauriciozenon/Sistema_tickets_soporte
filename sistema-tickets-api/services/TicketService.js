@@ -36,11 +36,11 @@ exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
   const ticketActual = await ticketModel.obtenerTicketPorId(id_ticket);
   if (!ticketActual) throw new Error('Ticket no encontrado');
 
-  const camposModificables = ['estado', 'prioridad'];
+  const camposModificables = ['estado', 'prioridad', 'activo'];
   const actualizaciones = {};
 
   for (const campo of camposModificables) {
-    if (cambios[campo] && cambios[campo] !== ticketActual[campo]) {
+  if (cambios.hasOwnProperty(campo) && cambios[campo] !== ticketActual[campo]) {
       actualizaciones[campo] = cambios[campo];
 
       await historialService.registrarHistorial({
@@ -49,7 +49,8 @@ exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
         campo_modificado: campo,
         valor_anterior: ticketActual[campo],
         valor_nuevo: cambios[campo],
-        comentario: cambios.comentario || ''
+        comentario: cambios.comentario || '',
+        activo: cambios.activo || true
       });
     }
   }

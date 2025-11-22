@@ -16,7 +16,10 @@ exports.listarTickets = async () => {
 
 // Método para filtrar tickets
 exports.filtrarTickets = async (filtros) => {
-  let query = 'SELECT * FROM Ticket WHERE 1=1';
+  let query = `SELECT * 
+               FROM Ticket t 
+               JOIN Usuario u ON u.id_usuario = t.id_usuario
+               WHERE 1=1`;
   const params = [];
 
   if (filtros.estado) {
@@ -30,7 +33,7 @@ exports.filtrarTickets = async (filtros) => {
   }
 
   if (filtros.id_usuario) {
-    query += ' AND id_usuario = ?';
+    query += ' AND t.id_usuario = ?';
     params.push(filtros.id_usuario);
   }
 
@@ -42,6 +45,10 @@ exports.filtrarTickets = async (filtros) => {
   if (filtros.hasta) {
     query += ' AND fecha_hora <= ?';
     params.push(filtros.hasta);
+  }
+  if (filtros.activo !== undefined) {
+    query += ' AND t.activo = ?';
+    params.push(filtros.activo);
   }
 
   const [rows] = await pool.query(query, params);
