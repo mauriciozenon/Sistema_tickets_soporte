@@ -12,7 +12,7 @@ exports.login = async (email, password) => {
   const token = jwt.sign(
     { id_usuario: usuario.id_usuario, rol: usuario.rol },
     process.env.JWT_SECRET,
-    { expiresIn: '0.1h' }
+    { expiresIn: '8h' }
   );
 
   return { token, usuario: { id_usuario: usuario.id_usuario, nombre: usuario.nombre, rol: usuario.rol } };

@@ -15,45 +15,97 @@ exports.listarTickets = async () => {
 };
 
 // Método para filtrar tickets
-exports.filtrarTickets = async (filtros) => {
-  let query = `SELECT * 
-               FROM Ticket t 
-               JOIN Usuario u ON u.id_usuario = t.id_usuario
-               WHERE 1=1`;
+// models/ticketModel.js
+exports.filtrarTickets = async (filtros, limit, offset) => {
+  let query = `
+    SELECT t.*, u.nombre 
+    FROM Ticket t
+    JOIN Usuario u ON u.id_usuario = t.id_usuario
+    WHERE 1=1
+  `;
+
   const params = [];
 
   if (filtros.estado) {
-    query += ' AND estado = ?';
+    query += " AND t.estado = ?";
     params.push(filtros.estado);
   }
 
   if (filtros.prioridad) {
-    query += ' AND prioridad = ?';
+    query += " AND t.prioridad = ?";
     params.push(filtros.prioridad);
   }
 
   if (filtros.id_usuario) {
-    query += ' AND t.id_usuario = ?';
+    query += " AND t.id_usuario = ?";
     params.push(filtros.id_usuario);
   }
 
   if (filtros.desde) {
-    query += ' AND fecha_hora >= ?';
+    query += " AND fecha_hora >= ?";
     params.push(filtros.desde);
   }
 
   if (filtros.hasta) {
-    query += ' AND fecha_hora <= ?';
+    query += " AND fecha_hora <= ?";
     params.push(filtros.hasta);
   }
-  if (filtros.activo !== undefined) {
-    query += ' AND t.activo = ?';
+
+  if (filtros.activo !== undefined && filtros.activo !== "") {
+    query += " AND t.activo = ?";
     params.push(filtros.activo);
   }
+
+  // PAGINADO REAL:
+  query += " ORDER BY t.fecha_hora DESC LIMIT ? OFFSET ?";
+  params.push(limit, offset);
 
   const [rows] = await pool.query(query, params);
   return rows;
 };
+exports.contarTickets = async (filtros) => {
+  let query = `
+    SELECT COUNT(*) AS total
+    FROM Ticket t 
+    WHERE 1=1
+  `;
+
+  const params = [];
+
+  if (filtros.estado) {
+    query += " AND estado = ?";
+    params.push(filtros.estado);
+  }
+
+  if (filtros.prioridad) {
+    query += " AND prioridad = ?";
+    params.push(filtros.prioridad);
+  }
+
+  if (filtros.id_usuario) {
+    query += " AND id_usuario = ?";
+    params.push(filtros.id_usuario);
+  }
+
+  if (filtros.desde) {
+    query += " AND fecha_hora >= ?";
+    params.push(filtros.desde);
+  }
+
+  if (filtros.hasta) {
+    query += " AND fecha_hora <= ?";
+    params.push(filtros.hasta);
+  }
+
+  if (filtros.activo !== undefined && filtros.activo !== "") {
+    query += " AND activo = ?";
+    params.push(filtros.activo);
+  }
+
+  const [rows] = await pool.query(query, params);
+  return rows[0].total;
+};
+
 
 // Método para obtener un ticket por su ID
 exports.obtenerTicketPorId = async (id_ticket) => {

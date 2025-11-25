@@ -1,19 +1,19 @@
 const usuarioModel = require('../models/usuarioModel');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.crearUsuario = async (datos) => {
-    const { nombre, email, rol, password } = datos;
-    const password_hash = await bcrypt.hash(password, 10);
+  const { nombre, email, rol, password } = datos;
+  const password_hash = await bcrypt.hash(password, 10);
 
-    if (!nombre || !email || !rol || !password) {
-        throw new Error('Faltan campos obligatorios');
-    }
+  if (!nombre || !email || !rol || !password) {
+    throw new Error('Faltan campos obligatorios');
+  }
 
-    return await usuarioModel.insertarUsuario(nombre, email, rol, password_hash);
+  return await usuarioModel.insertarUsuario(nombre, email, rol, password_hash);
 };
 
 exports.obtenerUsuarios = async () => {
-    return await usuarioModel.listarUsuarios();
+  return await usuarioModel.listarUsuarios();
 };
 
 exports.actualizarUsuario = async (id_usuario, campos) => {
@@ -26,21 +26,4 @@ exports.actualizarUsuario = async (id_usuario, campos) => {
 
 exports.eliminarUsuario = async (id_usuario) => {
   return await usuarioModel.eliminarUsuario(id_usuario);
-};
-
-
-exports.iniciarSesion = async (datos) => {
-    const { email, password } = datos;
-    const usuarioExistente = await usuarioModel.obtenerUsuarioLogin(email);
-    if (usuarioExistente.length === 0 || !usuarioExistente) {
-        throw new Error('Usuario no encontrado');
-    }
-
-    const password_hash = await bcrypt.hash(password, 10);
-
-    if (!nombre || !email || !rol || !password) {
-        throw new Error('Faltan campos obligatorios');
-    }
-
-    return await usuarioModel.insertarUsuario(nombre, email, rol, password_hash);
 };

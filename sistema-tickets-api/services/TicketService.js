@@ -18,19 +18,14 @@ exports.crearTicket = async (datos) => {
 };
 
 exports.obtenerTickets = async (filtros, limit, offset) => {
-  return await ticketModel.filtrarTickets(filtros, parseInt(limit), parseInt(offset));
+  return await ticketModel.filtrarTickets(filtros, limit, offset);
+};
+
+exports.contarTickets = async (filtros) => {
+  return await ticketModel.contarTickets(filtros);
 };
 exports.obtenerTicketPorId = async (id_ticket) => {
   return await ticketModel.obtenerTicketPorId(id_ticket);
-};
-exports.contarTickets = async (filtros) => {
-  let cantidad = 0;
-  let result = await ticketModel.filtrarTickets("");
-  if(result)
-    {
-      cantidad = result.length;
-    }
-    return cantidad;
 };
 exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
   const ticketActual = await ticketModel.obtenerTicketPorId(id_ticket);
