@@ -5,7 +5,7 @@ exports.insertarUsuario = async (nombre, email, rol, password_hash) => {
     'INSERT INTO Usuario (nombre, email, rol, password_hash) VALUES (?, ?, ?, ?)',
     [nombre, email, rol, password_hash]
   );
-  return { mensaje: 'Usuario creado', id: result.insertId };
+  return { usuario: { id_usuario: result.insertId, nombre, email, rol }};
 };
 
 exports.listarUsuarios = async () => {

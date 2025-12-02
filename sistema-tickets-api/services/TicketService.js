@@ -17,30 +17,25 @@ exports.crearTicket = async (datos) => {
   }
 };
 
-exports.obtenerTickets = async (filtros) => {
-  return await ticketModel.filtrarTickets(filtros);
+exports.obtenerTickets = async (filtros, limit, offset) => {
+  return await ticketModel.filtrarTickets(filtros, limit, offset);
+};
+
+exports.contarTickets = async (filtros) => {
+  return await ticketModel.contarTickets(filtros);
 };
 exports.obtenerTicketPorId = async (id_ticket) => {
   return await ticketModel.obtenerTicketPorId(id_ticket);
-};
-exports.contarTickets = async (filtros) => {
-  let cantidad = 0;
-  let result = await ticketModel.filtrarTickets("");
-  if(result)
-    {
-      cantidad = result.length;
-    }
-    return cantidad;
 };
 exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
   const ticketActual = await ticketModel.obtenerTicketPorId(id_ticket);
   if (!ticketActual) throw new Error('Ticket no encontrado');
 
-  const camposModificables = ['estado', 'prioridad'];
+  const camposModificables = ['estado', 'prioridad', 'activo'];
   const actualizaciones = {};
 
   for (const campo of camposModificables) {
-    if (cambios[campo] && cambios[campo] !== ticketActual[campo]) {
+  if (cambios.hasOwnProperty(campo) && cambios[campo] !== ticketActual[campo]) {
       actualizaciones[campo] = cambios[campo];
 
       await historialService.registrarHistorial({
@@ -49,7 +44,8 @@ exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
         campo_modificado: campo,
         valor_anterior: ticketActual[campo],
         valor_nuevo: cambios[campo],
-        comentario: cambios.comentario || ''
+        comentario: cambios.comentario || '',
+        activo: cambios.activo || true
       });
     }
   }
@@ -60,4 +56,8 @@ exports.actualizarTicket = async (id_ticket, cambios, id_usuario) => {
 
   await ticketModel.actualizarTicket(id_ticket, actualizaciones);
   return { mensaje: 'Ticket actualizado', cambios: actualizaciones };
+};
+
+exports.borrarTicket = async (id_ticket) => {
+  return await ticketModel.eliminarTicket(id_ticket);
 };
