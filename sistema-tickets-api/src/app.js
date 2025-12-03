@@ -7,7 +7,10 @@ const app = express();
 // Middlewares
 
 app.use(cors({
-  origin: 'http://localhost:3020',
+  origin: [
+    'http://localhost:3020',
+    'https://mauriciozenon.github.io'
+  ],
   credentials: true
 }));
 app.use(express.json());
