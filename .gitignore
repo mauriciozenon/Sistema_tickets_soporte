@@ -33,3 +33,10 @@ coverage/
 *.sqlite
 *.bak
 *.tmp
+
+serviceAccountKey.json
+# Firebase Service Account
+sistema-tickets-api/sistema-tickets-34b1c-firebase-adminsdk-fbsvc-9b46c33d2c.json
+
+# Firebase Service Accounts
+*-firebase-adminsdk-*.json

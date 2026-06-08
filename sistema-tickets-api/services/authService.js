@@ -1,6 +1,7 @@
 const usuarioModel = require('../models/usuarioModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const admin = require('../config/firebase-admin');
 
 exports.login = async (email, password) => {
   const usuario = await usuarioModel.obtenerUsuarioLogin(email);
@@ -15,7 +16,21 @@ exports.login = async (email, password) => {
     { expiresIn: '8h' }
   );
 
-  return { token, usuario: { id_usuario: usuario.id_usuario, nombre: usuario.nombre, rol: usuario.rol } };
+  let firebaseToken = null;
+  try {
+    firebaseToken = await admin.auth().createCustomToken(
+      usuario.id_usuario.toString(),
+      { role: usuario.rol }
+    );
+  } catch (err) {
+    console.warn('⚠ Firebase no disponible. Token de Firebase no generado.');
+  }
+
+  return {
+    token,
+    firebaseToken,
+    usuario: { id_usuario: usuario.id_usuario, nombre: usuario.nombre, rol: usuario.rol }
+  };
 };
 
 exports.obtenerPerfil = async (id_usuario) => {
