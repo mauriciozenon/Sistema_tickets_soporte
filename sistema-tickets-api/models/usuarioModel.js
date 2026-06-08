@@ -14,8 +14,22 @@ exports.listarUsuarios = async () => {
 };
 
 exports.obtenerUsuarioLogin = async (email) => {
-  const [rows] = await pool.query('SELECT id_usuario, nombre, email, rol, password_hash FROM Usuario WHERE email = ?', [email]);
+  const [rows] = await pool.query('SELECT id_usuario, nombre, email, rol, password_hash, verificado FROM Usuario WHERE email = ?', [email]);
   return rows[0];
+};
+
+exports.guardarCodigoVerificacion = async (id_usuario, codigo, expiracion) => {
+  await pool.query(
+    'UPDATE Usuario SET codigo_verificacion = ?, codigo_expiracion = ? WHERE id_usuario = ?',
+    [codigo, expiracion, id_usuario]
+  );
+};
+
+exports.verificarUsuario = async (id_usuario) => {
+  await pool.query(
+    'UPDATE Usuario SET verificado = 1, codigo_verificacion = NULL, codigo_expiracion = NULL WHERE id_usuario = ?',
+    [id_usuario]
+  );
 };
 
 exports.obtenerUsuarioPorEmail = async (email) => {
