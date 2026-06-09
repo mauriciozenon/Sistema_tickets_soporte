@@ -33,7 +33,7 @@ exports.verificarUsuario = async (id_usuario) => {
 };
 
 exports.obtenerUsuarioPorEmail = async (email) => {
-  const [rows] = await pool.query('SELECT id_usuario, nombre, email, rol  FROM Usuario WHERE email = ?', [email]);
+  const [rows] = await pool.query('SELECT id_usuario, nombre, email, rol, verificado, codigo_verificacion, codigo_expiracion FROM Usuario WHERE email = ?', [email]);
   return rows[0];
 };
 exports.obtenerUsuarioPorId = async (id_usuario) => {

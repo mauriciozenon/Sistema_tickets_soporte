@@ -37,14 +37,3 @@ exports.eliminarUsuario = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
-
-exports.iniciarSesion = async (req, res) => {
-  try {
-    const usuario = await usuarioService.crearUsuario(req.body);
-    res.status(201).json(nuevoUsuario);
-  } catch (error) {
-    console.error('Error en controlador:', error);
-    res.status(500).json({ error: 'Error al registrar usuario' });
-  }
-};

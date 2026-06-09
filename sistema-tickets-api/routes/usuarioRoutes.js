@@ -9,6 +9,5 @@ router.post('/', usuarioController.registrarUsuario);
 router.get('/', usuarioController.listarUsuarios);
 router.put('/:id', authMiddleware, rolMiddleware(['administrador']), usuarioController.actualizarUsuario);
 router.delete('/:id', authMiddleware, rolMiddleware(['administrador']), usuarioController.eliminarUsuario);
-router.post('/login', usuarioController.iniciarSesion);
 
 module.exports = router;
