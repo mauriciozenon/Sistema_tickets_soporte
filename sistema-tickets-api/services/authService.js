@@ -10,8 +10,6 @@ exports.login = async (email, password) => {
   const valido = await bcrypt.compare(password, usuario.password_hash);
   if (!valido) throw new Error('Credenciales inválidas');
 
-  if (!usuario.verificado) throw new Error('Cuenta no verificada. Revisá tu correo.');
-
   const token = jwt.sign(
     { id_usuario: usuario.id_usuario, rol: usuario.rol },
     process.env.JWT_SECRET,

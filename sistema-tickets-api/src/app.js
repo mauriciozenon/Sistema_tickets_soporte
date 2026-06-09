@@ -22,7 +22,6 @@ const ticketRoutes = require('../routes/ticketRoutes');
 const historialRoutes = require('../routes/historialRoutes');
 const errorHandler = require('../middleware/errorHandler');
 const authRoutes = require('../routes/authRoutes');
-const verificacionRoutes = require('../routes/verificacionRoutes');
 const rolMiddleware = require('../middleware/rolMiddleware');
 
 
@@ -31,7 +30,6 @@ app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/historial', historialRoutes);
 app.use('/api/auth', authRoutes);
-app.use('/api/auth', verificacionRoutes);
 app.use(errorHandler);
 
 // Puerto

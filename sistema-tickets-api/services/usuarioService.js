@@ -1,6 +1,5 @@
 const usuarioModel = require('../models/usuarioModel');
 const bcrypt = require('bcryptjs');
-const verificacionService = require('./verificacionService');
 
 exports.crearUsuario = async (datos) => {
   const { nombre, email, rol, password } = datos;
@@ -10,15 +9,7 @@ exports.crearUsuario = async (datos) => {
     throw new Error('Faltan campos obligatorios');
   }
 
-  const resultado = await usuarioModel.insertarUsuario(nombre, email, rol, password_hash);
-
-  try {
-    await verificacionService.enviarCodigo(email);
-  } catch (err) {
-    console.error('Error al enviar código de verificación:', err.message);
-  }
-
-  return resultado;
+  return await usuarioModel.insertarUsuario(nombre, email, rol, password_hash);
 };
 
 exports.obtenerUsuarios = async () => {
