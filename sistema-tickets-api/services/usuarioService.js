@@ -8,6 +8,11 @@ exports.crearUsuario = async (datos) => {
   if (!nombre || !email || !rol || !password) {
     throw new Error('Faltan campos obligatorios');
   }
+  let usuarioExistente = await usuarioModel.obtenerUsuarioPorEmail(email);
+  console.log(usuarioExistente)
+  if (usuarioExistente) {
+    throw new Error("email_en_uso");
+  }
 
   return await usuarioModel.insertarUsuario(nombre, email, rol, password_hash);
 };

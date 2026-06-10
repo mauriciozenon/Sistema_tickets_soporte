@@ -6,7 +6,12 @@ exports.registrarUsuario = async (req, res) => {
     res.status(201).json(nuevoUsuario);
   } catch (error) {
     console.error('Error en controlador:', error);
-    res.status(500).json({ error: 'Error al registrar usuario' });
+    if (error.message == "email_en_uso") {
+      res.status(403).json({ error: 'El email ya se encuentra en uso' });
+    } else {
+      res.status(500).json({ error: 'Error al registrar usuario' });
+
+    }
   }
 };
 

@@ -17,6 +17,7 @@ CREATE TABLE Ticket (
     fecha_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     asunto VARCHAR(150) NOT NULL,
     id_usuario INT NOT NULL,
+    activo BIT DEFAULT 1,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
         ON DELETE CASCADE
         ON UPDATE CASCADE
